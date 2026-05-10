@@ -101,6 +101,8 @@ MainView {
         return total
     }
 
+    ListModel { id: expenseModel }
+
     Component.onCompleted: { initDB(); loadExpenses() }
 
     Page {
@@ -294,42 +296,45 @@ MainView {
                                                         anchors.right: parent.right
                                                         height: 1; color: borderColor
                                                     }
-                                                    Row {
-                                                        anchors.left: parent.left
-                                                        anchors.right: parent.right
-                                                        anchors.verticalCenter: parent.verticalCenter
-                                                        spacing: units.gu(1.5)
-                                                        Rectangle {
-                                                            width: units.gu(5.5); height: units.gu(5.5); radius: units.gu(1)
-                                                            color: (categoryColors[model.category] || "#7C3AED") + "22"
-                                                            Label { text: model.category.substring(0,1); anchors.centerIn: parent; font.pixelSize: units.gu(2.2); font.bold: true; color: categoryColors[model.category] || "#7C3AED" }
-                                                        }
-                                                        Column {
-                                                            width: parent.width - units.gu(20); anchors.verticalCenter: parent.verticalCenter; spacing: units.gu(0.3)
-                                                            Label { text: model.description; font.pixelSize: units.gu(1.8); font.bold: true; color: textColor }
-                                                            Row {
-                                                                spacing: units.gu(0.8)
-                                                                Rectangle {
-                                                                    height: units.gu(2.2); width: cLbl.width + units.gu(1.5); radius: height/2
-                                                                    color: (categoryColors[model.category] || "#7C3AED") + "22"
-                                                                    Label { id: cLbl; text: model.category; anchors.centerIn: parent; font.pixelSize: units.gu(1.2); color: categoryColors[model.category] || "#7C3AED" }
-                                                                }
-                                                                Label { text: model.date; font.pixelSize: units.gu(1.3); color: subTextColor; anchors.verticalCenter: parent.verticalCenter }
-                                                            }
-                                                        }
-                                                        Label { text: "Rs" + model.amount; font.pixelSize: units.gu(2); font.bold: true; color: accentColor; anchors.verticalCenter: parent.verticalCenter }
+                                                    Rectangle {
+                                                        width: units.gu(5.5); height: units.gu(5.5); radius: units.gu(1)
+                                                        color: (categoryColors[model.category] || "#7C3AED") + "22"
+                                                        anchors { left: parent.left; verticalCenter: parent.verticalCenter }
+                                                        Label { text: model.category.substring(0,1); anchors.centerIn: parent; font.pixelSize: units.gu(2.2); font.bold: true; color: categoryColors[model.category] || "#7C3AED" }
+                                                    }
+                                                    Column {
+                                                        anchors { left: parent.left; leftMargin: units.gu(7); right: amountLbl.left; rightMargin: units.gu(1); verticalCenter: parent.verticalCenter }
+                                                        spacing: units.gu(0.3)
+                                                        Label { text: model.description; font.pixelSize: units.gu(1.8); font.bold: true; color: textColor; elide: Text.ElideRight; width: parent.width }
                                                         Row {
-                                                            anchors.verticalCenter: parent.verticalCenter; spacing: units.gu(0.5)
+                                                            spacing: units.gu(0.8)
                                                             Rectangle {
-                                                                width: units.gu(3.5); height: units.gu(3.5); radius: units.gu(0.8); color: darkMode ? "#2a2a4a" : "#f3eeff"
-                                                                Label { text: "E"; anchors.centerIn: parent; color: accentColor; font.pixelSize: units.gu(1.5) }
-                                                                MouseArea { anchors.fill: parent; onClicked: PopupUtils.open(editDialogComponent, null, {"editId": model.dbid, "editDesc": model.description, "editAmount": model.amount, "editCategory": model.category}) }
+                                                                height: units.gu(2.2); width: cLbl.width + units.gu(1.5); radius: height/2
+                                                                color: (categoryColors[model.category] || "#7C3AED") + "22"
+                                                                Label { id: cLbl; text: model.category; anchors.centerIn: parent; font.pixelSize: units.gu(1.2); color: categoryColors[model.category] || "#7C3AED" }
                                                             }
-                                                            Rectangle {
-                                                                width: units.gu(3.5); height: units.gu(3.5); radius: units.gu(0.8); color: "#FF6B6B22"
-                                                                Label { text: "X"; anchors.centerIn: parent; color: "#FF6B6B"; font.pixelSize: units.gu(1.5) }
-                                                                MouseArea { anchors.fill: parent; onClicked: deleteExpense(model.dbid) }
-                                                            }
+                                                            Label { text: model.date; font.pixelSize: units.gu(1.3); color: subTextColor; anchors.verticalCenter: parent.verticalCenter }
+                                                        }
+                                                    }
+                                                    Label {
+                                                        id: amountLbl
+                                                        text: "Rs" + model.amount
+                                                        font.pixelSize: units.gu(1.8); font.bold: true; color: accentColor
+                                                        anchors { right: actionRow.left; rightMargin: units.gu(1); verticalCenter: parent.verticalCenter }
+                                                    }
+                                                    Row {
+                                                        id: actionRow
+                                                        anchors { right: parent.right; verticalCenter: parent.verticalCenter }
+                                                        spacing: units.gu(0.5)
+                                                        Rectangle {
+                                                            width: units.gu(5); height: units.gu(3.5); radius: units.gu(0.8); color: accentColor
+                                                            Label { text: "Edit"; anchors.centerIn: parent; color: "white"; font.pixelSize: units.gu(1.3); font.bold: true }
+                                                            MouseArea { anchors.fill: parent; onClicked: PopupUtils.open(editDialogComponent, null, {"editId": model.dbid, "editDesc": model.description, "editAmount": model.amount, "editCategory": model.category}) }
+                                                        }
+                                                        Rectangle {
+                                                            width: units.gu(5); height: units.gu(3.5); radius: units.gu(0.8); color: "#FF6B6B"
+                                                            Label { text: "Del"; anchors.centerIn: parent; color: "white"; font.pixelSize: units.gu(1.3); font.bold: true }
+                                                            MouseArea { anchors.fill: parent; onClicked: deleteExpense(model.dbid) }
                                                         }
                                                     }
                                                 }
@@ -349,7 +354,7 @@ MainView {
                                                     model: ["Food","Transport","Shopping","Health","Entertainment","General"]
                                                     Column {
                                                         width: parent.width; spacing: units.gu(0.4)
-                                                        property real catTotal: getCategoryTotal(modelData)
+                                                        property real catTotal: totalAmount >= 0 ? getCategoryTotal(modelData) : 0
                                                         property real pct: totalAmount > 0 ? catTotal / totalAmount : 0
                                                         Row {
                                                             width: parent.width
@@ -373,11 +378,11 @@ MainView {
                                                 Label { text: "Rs" + totalAmount.toFixed(2); color: "white"; font.pixelSize: units.gu(3.5); font.bold: true }
                                                 Label { text: budgetLimit > 0 ? "of Rs" + budgetLimit.toFixed(0) + " budget" : "No budget set"; color: "#ffffff99"; font.pixelSize: units.gu(1.4) }
                                                 Rectangle {
-                                                    visible: budgetLimit > 0; width: units.gu(22); height: units.gu(1); radius: height/2; color: "#ffffff33"
+                                                    visible: budgetLimit > 0; width: units.gu(22); height: units.gu(1); radius: height/2; color: "#5B2DC4"
                                                     Rectangle { width: Math.min(parent.width, parent.width * (totalAmount / budgetLimit)); height: parent.height; radius: parent.radius; color: totalAmount > budgetLimit ? "#FF6B6B" : "#55efc4" }
                                                 }
                                                 Rectangle {
-                                                    width: units.gu(14); height: units.gu(4); radius: units.gu(0.8); color: "#ffffff33"
+                                                    width: units.gu(14); height: units.gu(4); radius: units.gu(0.8); color: "#5B2DC4"
                                                     border.color: "white"; border.width: 1
                                                     Label { text: "Set Budget"; anchors.centerIn: parent; color: "white"; font.pixelSize: units.gu(1.5) }
                                                     MouseArea { anchors.fill: parent; onClicked: currentTab = 3 }
@@ -410,7 +415,7 @@ MainView {
                                                 model: ["Food","Transport","Shopping","Health","Entertainment","General"]
                                                 Column {
                                                     width: parent.width; spacing: units.gu(0.5)
-                                                    property real catTotal: getCategoryTotal(modelData)
+                                                    property real catTotal: totalAmount >= 0 ? getCategoryTotal(modelData) : 0
                                                     property real pct: totalAmount > 0 ? catTotal / totalAmount : 0
                                                     Row {
                                                         width: parent.width
@@ -452,7 +457,7 @@ MainView {
                                                 model: ["Food","Transport","Shopping","Health","Entertainment","General"]
                                                 Rectangle {
                                                     width: (parent.width - units.gu(1.5)) / 2; height: units.gu(9); radius: units.gu(1.5); color: cardColor
-                                                    property real catTotal: getCategoryTotal(modelData)
+                                                    property real catTotal: totalAmount >= 0 ? getCategoryTotal(modelData) : 0
                                                     property real pct: totalAmount > 0 ? catTotal / totalAmount : 0
                                                     Rectangle { width: units.gu(0.5); height: parent.height * 0.6; radius: width/2; color: categoryColors[modelData] || accentColor; anchors { left: parent.left; leftMargin: units.gu(0.5); verticalCenter: parent.verticalCenter } }
                                                     Column {
@@ -533,13 +538,13 @@ MainView {
                                                     Row {
                                                         anchors.verticalCenter: parent.verticalCenter; spacing: units.gu(0.5)
                                                         Rectangle {
-                                                            width: units.gu(3.5); height: units.gu(3.5); radius: units.gu(0.8); color: darkMode ? "#2a2a4a" : "#f3eeff"
-                                                            Label { text: "E"; anchors.centerIn: parent; color: accentColor; font.pixelSize: units.gu(1.5) }
+                                                            width: units.gu(4); height: units.gu(3.5); radius: units.gu(0.8); color: accentColor
+                                                            Label { text: "Edit"; anchors.centerIn: parent; color: "white"; font.pixelSize: units.gu(1.3); font.bold: true }
                                                             MouseArea { anchors.fill: parent; onClicked: PopupUtils.open(editDialogComponent, null, {"editId": model.dbid, "editDesc": model.description, "editAmount": model.amount, "editCategory": model.category}) }
                                                         }
                                                         Rectangle {
-                                                            width: units.gu(3.5); height: units.gu(3.5); radius: units.gu(0.8); color: "#FF6B6B22"
-                                                            Label { text: "X"; anchors.centerIn: parent; color: "#FF6B6B"; font.pixelSize: units.gu(1.5) }
+                                                            width: units.gu(4); height: units.gu(3.5); radius: units.gu(0.8); color: "#FF6B6B"
+                                                            Label { text: "Del"; anchors.centerIn: parent; color: "white"; font.pixelSize: units.gu(1.3); font.bold: true }
                                                             MouseArea { anchors.fill: parent; onClicked: deleteExpense(model.dbid) }
                                                         }
                                                     }
