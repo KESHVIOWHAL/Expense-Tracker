@@ -1,0 +1,50 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the expensetracker.keshvi package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: expensetracker.keshvi\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-10 17:52+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../qml/Main.qml:594
+msgid "Add Expense"
+msgstr ""
+
+#: ../qml/Main.qml:595
+msgid "Description"
+msgstr ""
+
+#: ../qml/Main.qml:596
+msgid "Amount (Rs)"
+msgstr ""
+
+#: ../qml/Main.qml:599
+msgid "Add"
+msgstr ""
+
+#: ../qml/Main.qml:607 ../qml/Main.qml:635
+msgid "Cancel"
+msgstr ""
+
+#: ../qml/Main.qml:614
+msgid "Edit Expense"
+msgstr ""
+
+#: ../qml/Main.qml:628
+msgid "Save"
+msgstr ""
+
+#: expensetracker.desktop.in.h:1
+msgid "expensetracker"
+msgstr ""

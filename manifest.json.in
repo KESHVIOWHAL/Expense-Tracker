@@ -1,0 +1,15 @@
+{
+    "name": "expensetracker.keshvi",
+    "description": "An application for users to track their daily expenses",
+    "architecture": "$ENV{ARCH}",
+    "title": "Expense Tracker",
+    "hooks": {
+        "expensetracker": {
+            "apparmor": "expensetracker.apparmor",
+            "desktop": "expensetracker.desktop"
+        }
+    },
+    "version": "1.0.0",
+    "maintainer": "Keshvi Vishwas Owhal <keshviowhal@gmail.com>",
+    "framework": "$ENV{CLICK_FRAMEWORK}"
+}
